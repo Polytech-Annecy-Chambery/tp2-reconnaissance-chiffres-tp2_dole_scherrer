@@ -24,13 +24,13 @@ if __name__ == '__main__':
     # Lecture image et affichage
     #==============================================================================
     image = Image()
-    image.load(path_to_assets + 'test2.JPG')
+    image.load(path_to_assets + 'test10.JPG')
     image.display("Exemple d'image")
 
     #==============================================================================
     # Binarisation de l'image et affichage
     #==============================================================================
-    S = 70
+    S = 150
     image_binarisee = image.binarisation(S)
     image_binarisee.display("Image binarisee")
 
@@ -52,3 +52,18 @@ if __name__ == '__main__':
     liste_modeles = lecture_modeles(path_to_assets)
     chiffre = reconnaissance_chiffre(image, liste_modeles, 70)
     print("Le chiffre reconnu est : ", chiffre)
+    
+    meilleurS,simmax=0,0
+    
+    for s in range(50,256):
+        imb = image.binarisation(s)
+        iml=imb.localisation()
+        im_resize=iml.resize(image.H,image.W)
+        sim=im_resize.similitude(image)
+        """print(sim,s)"""
+        if sim>simmax:
+            simmax=sim
+            meilleurS=s
+    print('Meilleur S =',meilleurS,"(",simmax,")")
+            
+            
